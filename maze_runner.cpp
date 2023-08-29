@@ -99,6 +99,17 @@ bool walk(pos_t pos) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 		system("clear");
 		maze[pos.i][pos.j]= '.';
+
+		if(maze[pos.i][pos.j-1]== 's' && pos.j-1 >= 0){
+			maze[pos.i][pos.j-1]= 'o';
+			print_maze();
+			return 1;
+		}
+		else if(maze[pos.i][pos.j-1]== 'x' && pos.j-1 >= 0){
+			pos_valida.i= pos.i;
+			pos_valida.j=pos.j-1;
+			valid_positions.push(pos_valida);
+		}
 		
 		if(maze[pos.i][pos.j+1]== 's' && pos.j+1 < num_cols){
 			maze[pos.i][pos.j+1]= 'o';
@@ -108,17 +119,6 @@ bool walk(pos_t pos) {
 		else if(maze[pos.i][pos.j+1]== 'x' && pos.j+1 < num_cols){
 			pos_valida.i= pos.i;
 			pos_valida.j=pos.j+1;
-			valid_positions.push(pos_valida);
-		}
-		
-		if(maze[pos.i][pos.j-1]== 's' && pos.j-1 >= 0){
-			maze[pos.i][pos.j-1]= 'o';
-			print_maze();
-			return 1;
-		}
-		else if(maze[pos.i][pos.j-1]== 'x' && pos.j-1 >= 0){
-			pos_valida.i= pos.i;
-			pos_valida.j=pos.j-1;
 			valid_positions.push(pos_valida);
 		}
 
