@@ -41,28 +41,27 @@ std::stack<pos_t> valid_positions;
 // memória e retorna a posição inicial
 pos_t load_maze(const char* file_name) {
 	pos_t initial_pos;
-				// Abre o arquivo para leitura (fopen)
+	// Abre o arquivo para leitura (fopen)
 	FILE * MAZE;
 	MAZE= fopen(file_name, "r");
-				// Le o numero de linhas e colunas (fscanf) 
+	// Le o numero de linhas e colunas (fscanf) 
 	fscanf(MAZE, "%d %d", &num_rows, &num_cols);
-	//fgetc(MAZE);
-				// e salva em num_rows e num_cols
+	// e salva em num_rows e num_cols
 
-				// Aloca a matriz maze (malloc)
+	// Aloca a matriz maze (malloc)
 	maze = (char **) malloc(num_rows* sizeof(char*));
 
 	for (int i = 0; i < num_rows; ++i){
-				// Aloca cada linha da matriz
+		// Aloca cada linha da matriz
 		maze[i] = (char *) malloc(num_cols* sizeof(char));
 	}
 
 	for (int i = 0; i < num_rows; ++i) {
 		fgetc(MAZE);
 		for (int j = 0; j < num_cols; ++j) {
-				// Le o valor da linha i+1,j do arquivo e salva na posição maze[i][j]
+			// Le o valor da linha i+1,j do arquivo e salva na posição maze[i][j]
 			fscanf(MAZE, "%c", &maze[i][j]);
-				// Se o valor for 'e' salvar o valor em initial_pos
+			// Se o valor for 'e' salvar o valor em initial_pos
 			if(maze[i][j] == 'e'){
 				pos_t initial_pos;
 				initial_pos.i= i;
@@ -148,31 +147,6 @@ bool walk(pos_t pos) {
 			}
 		}
 	}
-			// Repita até que a saída seja encontrada ou não existam mais posições não exploradas
-				// Marcar a posição atual com o símbolo '.'
-				// Limpa a tela
-				// Imprime o labirinto
-				
-				/* Dado a posição atual, verifica quais sao as próximas posições válidas
-					Checar se as posições abaixo são validas (i>0, i<num_rows, j>0, j <num_cols)
-					e se são posições ainda não visitadas (ou seja, caracter 'x') e inserir
-					cada uma delas no vetor valid_positions
-						- pos.i, pos.j+1
-						- pos.i, pos.j-1
-						- pos.i+1, pos.j
-						- pos.i-1, pos.j
-					Caso alguma das posiçÕes validas seja igual a 's', retornar verdadeiro
-				*/
-
-		
-	
-			// Verifica se a pilha de posições nao esta vazia 
-			//Caso não esteja, pegar o primeiro valor de  valid_positions, remove-lo e chamar a funçao walk com esse valor
-			// Caso contrario, retornar falso
-		// if (!valid_positions.empty()) {
-		// 	pos_t next_position = valid_positions.top();
-		// 	valid_positions.pop();
-		// }
 	return false;
 }
 
