@@ -148,6 +148,16 @@ void walk(pos_t pos) {
 			thread f(walk, pos_valida);
 			f.detach();
 		}
+		else if(valid_positions.size() == 3){
+			pos.i= valid_positions.top().i;
+			pos.j= valid_positions.top().j;
+			valid_positions.pop();
+
+			pos_valida.i= valid_positions.top().i;
+			pos_valida.j= valid_positions.top().j;
+			thread f(walk, pos_valida);
+			f.detach();
+		}
 	}
 }
 
