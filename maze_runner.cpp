@@ -3,6 +3,7 @@
 #include <stack>
 #include <thread>
 
+
 using namespace std; 
 
 // Matriz de char representnado o labirinto
@@ -20,11 +21,6 @@ struct pos_t {
 	int i;
 	int j;
 };
-
-// Estrutura de dados contendo as próximas
-// posicões a serem exploradas no labirinto
-// stack<pos_t> valid_positions;
-
 
 // Função que le o labirinto de um arquivo texto, carrega em 
 // memória e retorna a posição inicial
@@ -55,7 +51,6 @@ pos_t load_maze(const char* file_name) {
 				pos_t initial_pos;
 				initial_pos.i= i;
 				initial_pos.j= j; 
-				// valid_positions.push(initial_pos);
 			}
 		}
 	}
@@ -63,10 +58,10 @@ pos_t load_maze(const char* file_name) {
 }
 
 // Função que imprime o labirinto
-void print_maze() {
+void print_maze() {	
 	for (int i = 0; i < num_rows; ++i) {
 		for (int j = 0; j < num_cols; ++j) {
-			printf("%c", maze[i][j]);
+			printf("%c" , maze[i][j]);
 		}
 		printf("\n");
 	}
@@ -81,9 +76,9 @@ void walk(pos_t pos) {
 	while(!valid_positions.empty()){
 		valid_positions.pop();
 		maze[pos.i][pos.j]= 'o';
-		// print_maze();
+
 		this_thread::sleep_for(chrono::milliseconds(50));
-		// system("clear");
+
 		maze[pos.i][pos.j]= '.';
 
 		if(maze[pos.i][pos.j-1]== 's' && pos.j-1 >= 0){
@@ -157,6 +152,12 @@ void walk(pos_t pos) {
 			pos_valida.j= valid_positions.top().j;
 			thread f(walk, pos_valida);
 			f.detach();
+			valid_positions.pop();
+
+			pos_valida.i= valid_positions.top().i;
+			pos_valida.j= valid_positions.top().j;
+			thread g(walk, pos_valida);
+			g.detach();
 		}
 	}
 }
@@ -165,7 +166,6 @@ int main(int argc, char* argv[]) {
 	// carregar o labirinto com o nome do arquivo recebido como argumento
 	pos_t initial_pos = load_maze(argv[1]);
 	// chamar a função de navegação- thread secundária 
-	// bool exit_found = std::thread t(walk,initial_pos);
 	thread t(walk,initial_pos);
 	t.detach();
 
